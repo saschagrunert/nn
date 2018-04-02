@@ -1,4 +1,4 @@
-# nn
+# ηn
 ## A tiny neural network 🧠
 
 This small neural network is based on the
