@@ -11,8 +11,9 @@ A minimal usage example would look like this:
 ```haskell
 main :: IO ()
 main = do
-  {- Creates a new network with two inputs, two hidden layers and one output -}
-  network <- newIO [2, 2, 1]
+  {- Creates a new network with two inputs,
+     two hidden layers and one output -}
+  network <- new [2, 2, 1]
 
   {- Train the network for a common logical AND,
      until the maximum error of 0.01 is reached -}

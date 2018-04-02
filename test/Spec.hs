@@ -6,7 +6,7 @@ module Main
   ( main
   ) where
 
-import AI.Nn                 (newIO
+import AI.Nn                 (new
                              ,predict
                              ,train)
 import Test.Tasty            (TestTree
@@ -37,7 +37,7 @@ unitTests = do
 nnSpec :: Spec
 nnSpec = parallel $ do
   it "should succeed to train logical AND" $ do
-    n <- newIO [2, 2, 1]
+    n <- new [2, 2, 1]
     let
       nw = train 0.001
                  n
@@ -48,7 +48,7 @@ nnSpec = parallel $ do
     round (head $ predict nw [0, 0]) `shouldBe` (0 :: Int)
 
   it "should succeed to train logical OR" $ do
-    n <- newIO [2, 2, 1]
+    n <- new [2, 2, 1]
     let
       nw = train 0.001
                  n
@@ -59,7 +59,7 @@ nnSpec = parallel $ do
     round (head $ predict nw [0, 0]) `shouldBe` (0 :: Int)
 
   it "should succeed to train addition" $ do
-    n <- newIO [2, 2, 1]
+    n <- new [2, 2, 1]
     let
       nw = train 0.001
                  n

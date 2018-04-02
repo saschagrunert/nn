@@ -6,7 +6,6 @@ module AI.Nn
   ( Network
   , predict
   , new
-  , newIO
   , train
   ) where
 
@@ -97,6 +96,12 @@ sigmoidLayer :: [Neuron'] -> Layer ()
 sigmoidLayer n = (biasNeuron x, ()) : createLayer n sigmoidNeuron
   where x = length $ head n
 
+-- | Create a new standard network for a number of layer and neurons
+--
+-- @since 0.1.0
+new :: [Int] -> IO Network
+new n = newGen n <$> getStdGen
+
 -- | Create a new output Layer from a list of Neuron'
 --
 -- @since 0.1.0
@@ -106,8 +111,8 @@ outputLayer n = createLayer n outputNeuron
 -- | Create a new network for a StdGen and a number of layer and neurons
 --
 -- @since 0.1.0
-new :: [Int] -> StdGen -> Network
-new n g = (sigmoidLayer <$> init wss) ++ [outputLayer (last wss)]
+newGen :: [Int] -> StdGen -> Network
+newGen n g = (sigmoidLayer <$> init wss) ++ [outputLayer (last wss)]
  where
   rest                 = init n
   hiddenIcsNcs         = zip ((+ 1) <$> rest) (tail rest)
@@ -122,12 +127,6 @@ new n g = (sigmoidLayer <$> init wss) ++ [outputLayer (last wss)]
   (outputWss, _) = pack outputIc outputNc rs'
   wss            = hidden ++ [outputWss]
   pack ic nc ws = (take nc $ chunksOf ic ws, drop (ic * nc) ws)
-
--- | Create a new standard network for a number of layer and neurons
---
--- @since 0.1.0
-newIO :: [Int] -> IO Network
-newIO n = new n <$> getStdGen
 
 -- | Do the complete back propagation
 --
@@ -198,7 +197,6 @@ updateNeuron (n, fpi) d = (n { inputWeights = ws' }, e)
  where
   e   = activate' n (sumInputWeight fpi) * d
   ws' = zipWith (\x w -> w + (rate * e * x)) (inputs fpi) (inputWeights n)
-
 
 -- | Trains a network with a set of vector pairs until the global error is
 -- smaller than epsilon
