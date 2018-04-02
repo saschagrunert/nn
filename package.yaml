@@ -1,0 +1,44 @@
+---
+name: nn
+version: 0.1.0
+github: "saschagrunert/nn"
+license: MIT
+author: "Sascha Grunert"
+maintainer: "mail@saschagrunert.de"
+copyright: "2018 Sascha Grunert"
+
+extra-source-files:
+  - README.md
+
+synopsis: A tiny neural network
+category: AI
+description: Please see the README on Github at
+  <https://github.com/saschagrunert/nn#readme>
+
+dependencies:
+  - base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+  ghc-options:
+    - -Wall
+    - -Wcompat
+  dependencies:
+    - random
+    - split
+
+tests:
+  nn-test:
+    main: Spec.hs
+    source-dirs: test
+    ghc-options:
+      - -Wall
+      - -Wcompat
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - nn
+      - tasty
+      - tasty-hspec
+      - tasty-quickcheck
