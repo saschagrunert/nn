@@ -9,6 +9,10 @@ This small neural network is based on the
 A minimal usage example would look like this:
 
 ```haskell
+import AI.Nn (new
+             ,predict
+             ,train)
+
 main :: IO ()
 main = do
   {- Creates a new network with two inputs,
